@@ -1,0 +1,17 @@
+{
+  "name": "ant",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "dependencies": {
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1",
+    "standard": "^14.3.1"
+  }
+}
