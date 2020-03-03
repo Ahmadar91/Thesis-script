@@ -1,23 +1,29 @@
 module.exports = {
-  repository: 'https://api.github.com/repos/Ahmadar91/ant/commits',
+  repository: 'https://api.github.com/repos/Ahmadar91/jfreechart/commits',
   github: {
-    clientId: 'caesarhawi',
-    clientSecret: '3dbf56b44c70e4641a9145943c8792f7de0315c4'
+    clientId: 'ahmadar1991',
+    clientSecret: '60883a660133053fe5d0f122aed527d868f0a6ac'
   },
   //  clientId: 'caesarhawi',
   //  clientSecret: '3dbf56b44c70e4641a9145943c8792f7de0315c4'
 
   //  clientId: 'Ahmadar91',
   // clientSecret: '60209dcd459ed9f6f954c83f0f3824cfc5ade766'
+
+  //  clientId: 'ahmadd91',
+  // clientSecret: 'db2aa9a5525ed477bf1c330a23070cbb961b958c'
+
+  //  clientId: 'ahmadar1991',
+  // clientSecret: '60883a660133053fe5d0f122aed527d868f0a6ac'
   database: {
     host: '157.245.42.114',
     port: 3306,
     user: 'admin1',
     password: 'admin1',
-    database: 'ant'
+    database: 'jfreechart'
   }
 }
-
+//   repository: 'https://api.github.com/repos/Ahmadar91/ant/commits',
 // module.exports = {
 //   repository: 'https://api.github.com/repos/Ahmadar91/ant/commits',
 //   github: {
@@ -37,3 +43,9 @@ module.exports = {
 //     database: 'ant'
 //   }
 // }
+
+// ahmadd91
+// db2aa9a5525ed477bf1c330a23070cbb961b958c
+
+// ahmadar1991
+// 60883a660133053fe5d0f122aed527d868f0a6ac

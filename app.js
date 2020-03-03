@@ -59,13 +59,14 @@ function parseCommit (data) {
   const message = data.commit.message
   db.query('INSERT INTO commits SET ?', {
     sha: data.sha,
-    message: message
-    // date: data.commit.committer.date
+    message: message,
+    date: new Date(data.commit.committer.date),
+    url: data.html_url
   })
     .then((next) => {
-      console.log(next)
+      // console.log(next)
       parseFiles(next.insertId, data)
-      parseStats(next.insertId, data)
+      // parseStats(next.insertId, data)
     })
     .catch((err) => {
       console.log('Error: [' + data.sha + ']: ' + err.message)
@@ -83,7 +84,9 @@ function parseFiles (commitId, data) {
       changes: data.files[i].changes,
       additions: data.files[i].additions,
       deletions: data.files[i].deletions,
-      date: new Date(data.commit.committer.date)
+      date: new Date(data.commit.committer.date),
+      url: data.html_url,
+      fileUrl: data.files[i].raw_url
     })
       .catch((err) => {
         console.log('Error: [' + data.sha + ']: ' + err.message)
@@ -91,21 +94,23 @@ function parseFiles (commitId, data) {
   }
 }
 
-function parseStats (commitId, data) {
-  console.log(data.commit.committer.date)
+// function parseStats (commitId, data) {
+//   console.log(data.commit.committer.date)
 
-  db.query('INSERT INTO commit SET ?', {
+//   db.query('INSERT INTO commit SET ?', {
 
-    sha: data.sha,
-    additions: data.stats.additions,
-    deletions: data.stats.deletions,
-    total: data.stats.total,
-    commitId: commitId
-  })
-    .catch((err) => {
-      console.log('Error: [' + data.sha + ']: ' + err.message)
-    })
-}
+//     sha: data.sha,
+//     additions: data.stats.additions,
+//     deletions: data.stats.deletions,
+//     total: data.stats.total,
+//     commitId: commitId,
+//     date: new Date(data.commit.committer.date),
+//     url: data.html_url
+//   })
+//     .catch((err) => {
+//       console.log('Error: [' + data.sha + ']: ' + err.message)
+//     })
+// }
 
 db.connect()
 getCommits()
