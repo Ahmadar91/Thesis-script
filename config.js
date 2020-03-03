@@ -23,6 +23,7 @@ module.exports = {
     database: 'jfreechart'
   }
 }
+// TODO create a new database called jfreechart1 and make the sha uniqe for the commits and check if its the same amout of commits
 //   repository: 'https://api.github.com/repos/Ahmadar91/ant/commits',
 // module.exports = {
 //   repository: 'https://api.github.com/repos/Ahmadar91/ant/commits',
