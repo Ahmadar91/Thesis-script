@@ -1,8 +1,8 @@
 module.exports = {
-  repository: 'https://api.github.com/repos/Ahmadar91/jfreechart/commits',
+  repository: 'https://api.github.com/repos/Ahmadar91/ant/commits',
   github: {
-    clientId: 'ahmadar1991',
-    clientSecret: '60883a660133053fe5d0f122aed527d868f0a6ac'
+    clientId: 'ahmadd91',
+    clientSecret: 'db2aa9a5525ed477bf1c330a23070cbb961b958c'
   },
   //  clientId: 'caesarhawi',
   //  clientSecret: '3dbf56b44c70e4641a9145943c8792f7de0315c4'
@@ -20,7 +20,7 @@ module.exports = {
     port: 3306,
     user: 'admin1',
     password: 'admin1',
-    database: 'jfreechart'
+    database: 'ant'
   }
 }
 // TODO create a new database called jfreechart1 and make the sha uniqe for the commits and check if its the same amout of commits
@@ -44,7 +44,7 @@ module.exports = {
 //     database: 'ant'
 //   }
 // }
-
+// 'https://api.github.com/repos/Ahmadar91/jfreechart/commits'
 // ahmadd91
 // db2aa9a5525ed477bf1c330a23070cbb961b958c
 
