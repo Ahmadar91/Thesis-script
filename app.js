@@ -66,6 +66,7 @@ function parseCommit (data) {
     .then((next) => {
       // console.log(next)
       parseFiles(next.insertId, data)
+
       // parseStats(next.insertId, data)
     })
     .catch((err) => {
@@ -73,9 +74,10 @@ function parseCommit (data) {
     })
 }
 
-function parseFiles (commitId, data) {
+async function parseFiles (commitId, data) {
   for (let i = 0; i < data.files.length; ++i) {
     // console.log(data.commit.committer.date)
+    const loc = await downloadFile(data.files[i].raw_url)
     db.query('INSERT INTO files SET ?', {
       commitId: commitId,
       sha: data.sha,
@@ -86,12 +88,28 @@ function parseFiles (commitId, data) {
       deletions: data.files[i].deletions,
       date: new Date(data.commit.committer.date),
       url: data.html_url,
-      fileUrl: data.files[i].raw_url
+      fileUrl: data.files[i].raw_url,
+      loc: loc
     })
       .catch((err) => {
         console.log('Error: [' + data.sha + ']: ' + err.message)
       })
   }
+}
+
+async function downloadFile (url) {
+  var headers = {}
+  if (config.github.clientId && config.github.clientSecret) {
+    headers.Authorization = 'Basic ' + Buffer.from(config.github.clientId + ':' + config.github.clientSecret).toString('base64')
+  }
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: headers
+  })
+  const data = await res.text()
+  return data.split(/\r\n|\r|\n/).length - 1
+  // console.log(url)
+  // console.log('LOC: ' +  data.split(/\r\n|\r|\n/).length - 1)
 }
 
 // function parseStats (commitId, data) {
