@@ -1,8 +1,8 @@
 module.exports = {
-  repository: 'https://api.github.com/repos/Ahmadar91/jfreechart/commits',
+  repository: 'https://api.github.com/repos/jfree/jfreechart/commits',
   github: {
-    clientId: 'Ahmadar91',
-    clientSecret: '60209dcd459ed9f6f954c83f0f3824cfc5ade766'
+    clientId: 'caesarhawi',
+    clientSecret: '3dbf56b44c70e4641a9145943c8792f7de0315c4'
   },
   //  clientId: 'caesarhawi',
   //  clientSecret: '3dbf56b44c70e4641a9145943c8792f7de0315c4'
@@ -50,3 +50,6 @@ module.exports = {
 
 // ahmadar1991
 // 60883a660133053fe5d0f122aed527d868f0a6ac
+
+// repository: 'https://api.github.com/repos/jfree/jfreechart/commits',
+//  repository: 'https://api.github.com/repos/apache/ant/commits',

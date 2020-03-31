@@ -98,16 +98,21 @@ async function parseFiles (commitId, data) {
 }
 
 async function downloadFile (url) {
-  var headers = {}
-  if (config.github.clientId && config.github.clientSecret) {
-    headers.Authorization = 'Basic ' + Buffer.from(config.github.clientId + ':' + config.github.clientSecret).toString('base64')
+  try {
+    var headers = {}
+    if (config.github.clientId && config.github.clientSecret) {
+      headers.Authorization = 'Basic ' + Buffer.from(config.github.clientId + ':' + config.github.clientSecret).toString('base64')
+    }
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: headers
+    })
+    const data = await res.text()
+    return data.split(/\r\n|\r|\n/).length - 1
+  } catch (err) {
+    console.log('Error: [' + url + ']: ' + err.message)
   }
-  const res = await fetch(url, {
-    method: 'GET',
-    headers: headers
-  })
-  const data = await res.text()
-  return data.split(/\r\n|\r|\n/).length - 1
+
   // console.log(url)
   // console.log('LOC: ' +  data.split(/\r\n|\r|\n/).length - 1)
 }
