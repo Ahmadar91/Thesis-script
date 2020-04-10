@@ -28,9 +28,13 @@ const newData = data.map(function (record) {
   const arr = record.message.match(/\bJENKINS-[0-9]{1,6}\b|#[0-9]{1,6}|HUDSON-[0-9]{1,6}/gim)
   //   console.log(arr)
   let str = ''
+  let str2 = ''
   for (let index = 0; index < arr.length; index++) {
     if (arr[index].startsWith('JEN')) {
       // console.log(arr[index].substring(8, arr[index].length))
+      str2 += `https://issues.jenkins-ci.org/browse/JENKINS-${arr[index].substring(8, arr[index].length)}?jql=ORDER%20BY%20lastViewed%20DESC\n`
+      console.log(str2)
+
       str += arr[index].substring(8, arr[index].length) + ','
     } else if (arr[index].startsWith('#')) {
       str += arr[index].substring(1, arr[index].length) + ','
@@ -45,8 +49,8 @@ const newData = data.map(function (record) {
 })
 
 // console.log(newData)
-const newWB = xlsx.utils.book_new(newData)
-const newWS = xlsx.utils.json_to_sheet(newData)
-xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
+// const newWB = xlsx.utils.book_new(newData)
+// const newWS = xlsx.utils.json_to_sheet(newData)
+// xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
 
-xlsx.writeFile(newWB, 'new Test.xlsx')
+// xlsx.writeFile(newWB, 'new Test.xlsx')
