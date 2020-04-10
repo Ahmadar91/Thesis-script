@@ -7,10 +7,9 @@ const data = xlsx.utils.sheet_to_json(ws)
 
 async function process () {
   console.log(`Total records: ${data.length}`)
-  const result = []
-  for (let i = 0; i < data.length; ++i) {
-    console.log(`processing record: ${i} out off ${data.length}`)
-    const record = data[i]
+  let counter = 0
+  return Promise.all(data.map(async (record) => {
+    console.log(`processing record: ${counter++} out off ${data.length}`)
     const newArr = []
     if (record.IssueLink !== '') {
       var array = record.IssueLink.split(',').map(String)
@@ -22,12 +21,8 @@ async function process () {
       }
     }
     record.bugType = newArr.toString()
-    result.push(record)
-    if (i > 5) {
-      break
-    }
-  }
-  return result
+    return record
+  }))
 }
 
 async function startScraping (url) {
