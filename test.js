@@ -26,31 +26,43 @@ const data = xlsx.utils.sheet_to_json(ws)
 let count = 0
 const newData = data.map(function (record) {
   const arr = record.message.match(/\bJENKINS-[0-9]{1,6}\b|#[0-9]{1,6}|HUDSON-[0-9]{1,6}/gim)
+  const sub = record.message.match(/\bfix\b/gim)
+  let fixCount = 0
+  if (sub != null) {
+    console.log(sub.length)
+    fixCount = sub.length
+  }
+
   //   console.log(arr)
   let str = ''
-  let str2 = ''
-  for (let index = 0; index < arr.length; index++) {
-    if (arr[index].startsWith('JEN')) {
-      // console.log(arr[index].substring(8, arr[index].length))
-      str2 += `https://issues.jenkins-ci.org/browse/JENKINS-${arr[index].substring(8, arr[index].length)}?jql=ORDER%20BY%20lastViewed%20DESC\n`
-      console.log(str2)
+  const str2 = []
+  var fil = arr.filter(function (re, index) {
+    return arr.indexOf(re) === index
+  })
+  // console.log(fil)
 
-      str += arr[index].substring(8, arr[index].length) + ','
-    } else if (arr[index].startsWith('#')) {
-      str += arr[index].substring(1, arr[index].length) + ','
-    } else { str += arr[index].substring(7, arr[index].length) + ',' }
+  for (let index = 0; index < fil.length; index++) {
+    if (fil[index].startsWith('JEN')) {
+      // console.log(arr[index].substring(8, arr[index].length))
+      str2.push(`https://issues.jenkins-ci.org/browse/JENKINS-${fil[index].substring(8, fil[index].length)}`)
+      //  console.log(str2)
+      str += fil[index].substring(8, fil[index].length) + ','
+    } else if (fil[index].startsWith('#')) {
+      str += fil[index].substring(1, fil[index].length) + ','
+    } else { str += fil[index].substring(7, fil[index].length) + ',' }
   }
   //   console.log()
   count++
   //   console.log('Record:' + count + '/ ' + str)
-
   record.bugID = str
+  record.ContainsTheWordFix = fixCount
+  record.IssueLink = str2.toString()
   return record
 })
 
 // console.log(newData)
-// const newWB = xlsx.utils.book_new(newData)
-// const newWS = xlsx.utils.json_to_sheet(newData)
-// xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
+const newWB = xlsx.utils.book_new(newData)
+const newWS = xlsx.utils.json_to_sheet(newData)
+xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
 
-// xlsx.writeFile(newWB, 'new Test.xlsx')
+xlsx.writeFile(newWB, 'newTest.xlsx')
