@@ -4,25 +4,38 @@ const fetch = require('node-fetch')
 const wb = xlsx.readFile('./newTest.xlsx', { cellDates: true })
 const ws = wb.Sheets.bugs
 const data = xlsx.utils.sheet_to_json(ws)
+const newData = []
 
-async function process () {
-  console.log(`Total records: ${data.length}`)
-  let counter = 0
-  return Promise.all(data.map(async (record) => {
-    console.log(`processing record: ${counter++} out off ${data.length}`)
-    const newArr = []
-    if (record.IssueLink !== '') {
-      var array = record.IssueLink.split(',').map(String)
-      for (let index = 0; index < array.length; index++) {
-        const str = await startScraping(array[index])
-        if (str) {
-          newArr.push(str)
-        }
+async function process (index) {
+  console.log(`processing record: ${index} out off ${data.length}`)
+  newData.push(await processRecord(data[index]))
+  if (index < data.length) {
+    if (index % 3 === 0) {
+      console.log('waiting for 5000 ms')
+      setTimeout(async () => {
+        await process(++index)
+      }, 5000)
+    } else {
+      await process(++index)
+    }
+  } else {
+    write()
+  }
+}
+
+async function processRecord (record) {
+  const newArr = []
+  if (record.IssueLink !== '') {
+    var array = record.IssueLink.split(',').map(String)
+    for (let index = 0; index < array.length; index++) {
+      const str = await startScraping(array[index])
+      if (str) {
+        newArr.push(str)
       }
     }
-    record.bugType = newArr.toString()
-    return record
-  }))
+  }
+  record.bugType = newArr.toString()
+  return record
 }
 
 async function startScraping (url) {
@@ -54,13 +67,17 @@ async function getDataFromAPI (url) {
   }
 }
 
-async function main () {
-  const newData = await process()
+async function write () {
   console.log(newData)
   const newWB = xlsx.utils.book_new(newData)
   const newWS = xlsx.utils.json_to_sheet(newData)
   xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
   xlsx.writeFile(newWB, 'newTest2.xlsx')
+}
+
+async function main () {
+  console.log(`Total records: ${data.length}`)
+  await process(0)
 }
 
 main()
