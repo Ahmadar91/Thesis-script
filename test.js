@@ -36,6 +36,7 @@ const newData = data.map(function (record) {
   //   console.log(arr)
   let str = ''
   const str2 = []
+  const str3 = []
   var fil = arr.filter(function (re, index) {
     return arr.indexOf(re) === index
   })
@@ -48,6 +49,7 @@ const newData = data.map(function (record) {
       //  console.log(str2)
       str += fil[index].substring(8, fil[index].length) + ','
     } else if (fil[index].startsWith('#')) {
+      // str3.push(`https://github.com/jenkinsci/jenkins/pull/${fil[index].substring(1, fil[index].length)}`)
       str += fil[index].substring(1, fil[index].length) + ','
     } else { str += fil[index].substring(7, fil[index].length) + ',' }
   }
@@ -57,6 +59,7 @@ const newData = data.map(function (record) {
   record.bugID = str
   record.ContainsTheWordFix = fixCount
   record.IssueLink = str2.toString()
+  // record.MergeLink = str3.toString()
   return record
 })
 
