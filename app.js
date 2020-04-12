@@ -8,7 +8,8 @@ async function getCommits () {
     headers.Authorization = 'Basic ' + Buffer.from(config.github.clientId + ':' + config.github.clientSecret).toString('base64')
   }
   try {
-    let page = 1
+    // 11 and 44 58, 62 , 63 -92 - 99 -151
+    let page = 92
     let data = []
     do {
       const url = config.repository + '?page=' + page

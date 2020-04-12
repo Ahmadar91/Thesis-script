@@ -1,8 +1,8 @@
 module.exports = {
-  repository: 'https://api.github.com/repos/jfree/jfreechart/commits',
+  repository: 'https://api.github.com/repos/apache/tomcat/commits',
   github: {
-    clientId: 'caesarhawi',
-    clientSecret: '3dbf56b44c70e4641a9145943c8792f7de0315c4'
+    clientId: 'Ahmadar91',
+    clientSecret: '60209dcd459ed9f6f954c83f0f3824cfc5ade766'
   },
 
   database: {
@@ -10,7 +10,7 @@ module.exports = {
     port: 3306,
     user: 'admin1',
     password: 'admin1',
-    database: 'jfreechart1'
+    database: 'tomcat'
   }
 }
 //  clientId: 'caesarhawi',
