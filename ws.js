@@ -9,6 +9,7 @@ const newData = []
 async function process (index) {
   console.log(`processing record: ${index} out off ${data.length}`)
   newData.push(await processRecord(data[index]))
+  // a < data.length - 1
   if (index < data.length - 1) {
     if (index % 3 === 0) {
       console.log('waiting for 5000 ms')
@@ -25,16 +26,27 @@ async function process (index) {
 
 async function processRecord (record) {
   const newArr = []
-  if (record.IssueLink !== '') {
+  const newArr1 = []
+  const newArr2 = []
+  // a !==''
+  if (record.IssueLink) {
+    console.log(record.IssueLink)
+
     var array = record.IssueLink.split(',').map(String)
     for (let index = 0; index < array.length; index++) {
       const str = await startScraping(array[index])
       if (str) {
-        newArr.push(str)
+        var strArr = str.split(',').map(String)
+        console.log(strArr)
+        newArr.push(strArr[1])
+        newArr1.push(strArr[3])
+        newArr2.push(strArr[9])
       }
     }
   }
   record.bugType = newArr.toString()
+  record.bugStatus = newArr1.toString()
+  record.Resolution = newArr2.toString()
   return record
 }
 
@@ -43,7 +55,8 @@ async function startScraping (url) {
     const body = await getDataFromAPI(url)
     const $ = cheerio.load(body)
     let str = $('#issuedetails').text().trim().toLowerCase()
-    str = str.replace(/\s+/g, ' ')
+    str = str.replace(/\s+/g, ',')
+    // console.log(str)
     return str
   } catch (err) {
     console.log(err.message)

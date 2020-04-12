@@ -23,43 +23,37 @@ const ws = wb.Sheets.bugs
 // console.log(ws)
 const data = xlsx.utils.sheet_to_json(ws)
 // console.log(data)
-let count = 0
 const newData = data.map(function (record) {
   const arr = record.message.match(/\bJENKINS-[0-9]{1,6}\b|#[0-9]{1,6}|HUDSON-[0-9]{1,6}/gim)
-  const sub = record.message.match(/\bfix\b/gim)
+  const sub = record.message.match(/\bfix\b|\bfixed\b/gim)
   let fixCount = 0
   if (sub != null) {
     console.log(sub.length)
     fixCount = sub.length
   }
 
-  //   console.log(arr)
-  let str = ''
+  const str = []
   const str2 = []
   const str3 = []
   var fil = arr.filter(function (re, index) {
     return arr.indexOf(re) === index
   })
-  // console.log(fil)
 
   for (let index = 0; index < fil.length; index++) {
     if (fil[index].startsWith('JEN')) {
       // console.log(arr[index].substring(8, arr[index].length))
       str2.push(`https://issues.jenkins-ci.org/browse/JENKINS-${fil[index].substring(8, fil[index].length)}`)
       //  console.log(str2)
-      str += fil[index].substring(8, fil[index].length) + ','
+      str.push(fil[index].substring(8, fil[index].length) + '')
     } else if (fil[index].startsWith('#')) {
-      // str3.push(`https://github.com/jenkinsci/jenkins/pull/${fil[index].substring(1, fil[index].length)}`)
-      str += fil[index].substring(1, fil[index].length) + ','
-    } else { str += fil[index].substring(7, fil[index].length) + ',' }
+      str3.push(`https://github.com/jenkinsci/jenkins/pull/${fil[index].substring(1, fil[index].length)}`)
+      str.push(fil[index].substring(1, fil[index].length) + '')
+    } else { str.push(fil[index].substring(7, fil[index].length) + '') }
   }
-  //   console.log()
-  count++
-  //   console.log('Record:' + count + '/ ' + str)
-  record.bugID = str
+  record.bugID = str.toString()
   record.ContainsTheWordFix = fixCount
   record.IssueLink = str2.toString()
-  // record.MergeLink = str3.toString()
+  record.MergeLink = str3.toString()
   return record
 })
 
@@ -67,5 +61,4 @@ const newData = data.map(function (record) {
 const newWB = xlsx.utils.book_new(newData)
 const newWS = xlsx.utils.json_to_sheet(newData)
 xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
-
 xlsx.writeFile(newWB, 'newTest.xlsx')
