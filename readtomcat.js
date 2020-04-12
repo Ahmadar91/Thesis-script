@@ -26,6 +26,8 @@ const ws = wb.Sheets.bugs
 const data = xlsx.utils.sheet_to_json(ws)
 // console.log(data)
 const newData = data.map(function (record) {
+  // SELECT * FROM files WHERE message REGEXP '/[[:<:]]BZ [0-9]{1,6}[[:>:]]|#[0-9]{1,6}|id=[0-9]{1,6}|[[:<:]]fix[[:>:]]|[[:<:]]fixed[[:>:]]/gim*' AND NAME LIKE "%.java%";
+
   const arr = record.message.match(/\bbz [0-9]{1,6}\b|#[0-9]{1,6}|id=[0-9]{1,6}/gim)
   const sub = record.message.match(/\bfix\b|\bfixed\b/gim)
   console.log(sub)

@@ -2,6 +2,7 @@ const xlsx = require('xlsx')
 const cheerio = require('cheerio')
 const fetch = require('node-fetch')
 const wb = xlsx.readFile('./newbz.xlsx', { cellDates: true })
+// const wb = xlsx.readFile('./newjmeter.xlsx', { cellDates: true })
 const ws = wb.Sheets.bugs
 const data = xlsx.utils.sheet_to_json(ws)
 const newData = []
@@ -78,6 +79,7 @@ async function write () {
   const newWS = xlsx.utils.json_to_sheet(newData)
   xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
   xlsx.writeFile(newWB, 'newbz2.xlsx')
+  // xlsx.writeFile(newWB, 'newjmeter2.xlsx')
 }
 
 async function main () {
