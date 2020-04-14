@@ -1,8 +1,8 @@
 module.exports = {
-  repository: 'https://api.github.com/repos/apache/jmeter/commits',
+  repository: 'https://api.github.com/repos/apache/tomcat/commits',
   github: {
-    clientId: 'Ahmadar91',
-    clientSecret: '60209dcd459ed9f6f954c83f0f3824cfc5ade766'
+    clientId: 'ahmadd91',
+    clientSecret: 'db2aa9a5525ed477bf1c330a23070cbb961b958c'
   },
 
   database: {
@@ -10,7 +10,7 @@ module.exports = {
     port: 3306,
     user: 'admin1',
     password: 'admin1',
-    database: 'jmeter'
+    database: 'tomcat'
   }
 }
 //  clientId: 'caesarhawi',

@@ -1,7 +1,7 @@
 const xlsx = require('xlsx')
 const cheerio = require('cheerio')
 const fetch = require('node-fetch')
-const wb = xlsx.readFile('./newbz.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./newtocatbugs.xlsx', { cellDates: true })
 // const wb = xlsx.readFile('./newjmeter.xlsx', { cellDates: true })
 const ws = wb.Sheets.bugs
 const data = xlsx.utils.sheet_to_json(ws)
@@ -11,12 +11,12 @@ async function process (index) {
   console.log(`processing record: ${index} out off ${data.length}`)
   newData.push(await processRecord(data[index]))
   // a < data.length - 1
-  if (index < 10) {
+  if (index < data.length - 1) {
     if (index % 3 === 0) {
-      console.log('waiting for 5000 ms')
+      console.log('waiting for 1500 ms')
       setTimeout(async () => {
         await process(++index)
-      }, 5000)
+      }, 1500)
     } else {
       await process(++index)
     }
@@ -30,16 +30,16 @@ async function processRecord (record) {
   // a !==''
   if (record.IssueLink) {
     console.log(record.IssueLink)
-
     var array = record.IssueLink.split(',').map(String)
     for (let index = 0; index < array.length; index++) {
       const str = await startScraping(array[index])
       if (str) {
+        console.log('\x1b[42m%s\x1b[0m', `****${str}****`)
         newArr.push(str)
       }
     }
   }
-  console.log(newArr)
+  // console.log(newArr)
   var fil1 = newArr.filter(function (re, index) {
     return newArr.indexOf(re) === index
   })
@@ -80,7 +80,7 @@ async function write () {
   const newWB = xlsx.utils.book_new(newData)
   const newWS = xlsx.utils.json_to_sheet(newData)
   xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
-  xlsx.writeFile(newWB, 'newbz2.xlsx')
+  xlsx.writeFile(newWB, 'newtomcat2.xlsx')
   // xlsx.writeFile(newWB, 'newjmeter2.xlsx')
 }
 

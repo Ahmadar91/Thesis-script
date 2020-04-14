@@ -16,19 +16,16 @@
 // }
 
 const xlsx = require('xlsx')
-
-// const wb = xlsx.readFile('./test.xlsx', { cellDates: true })
 const wb = xlsx.readFile('./files/tomcat.xlsx', { cellDates: true })
-// console.log(wb.SheetNames)
+
 const ws = wb.Sheets.bugs
 // const ws = wb.Sheets.Original
-// console.log(ws)
 const data = xlsx.utils.sheet_to_json(ws)
-// console.log(data)
 const newData = data.map(function (record) {
   // SELECT * FROM files WHERE message REGEXP '/[[:<:]]BZ [0-9]{1,6}[[:>:]]|#[0-9]{1,6}|id=[0-9]{1,6}|[[:<:]]fix[[:>:]]|[[:<:]]fixed[[:>:]]/gim*' AND NAME LIKE "%.java%";
+// SELECT * FROM files WHERE message REGEXP '/[[:<:]]BZ [0-9]{1,6}[[:>:]]|#[0-9]{1,6}|id=[0-9]{1,6}|bug [0-9]{1,6}|[[:<:]]fix[[:>:]]|[[:<:]]fixed[[:>:]]/gim' AND NAME LIKE "%.java%";
 
-  const arr = record.message.match(/\bbz [0-9]{1,6}\b|#[0-9]{1,6}|id=[0-9]{1,6}/gim)
+  const arr = record.message.match(/\bbz [0-9]{1,6}\b|#[0-9]{1,6}|id=[0-9]{1,6}}|bug [0-9]{1,6}/gim)
   const sub = record.message.match(/\bfix\b|\bfixed\b/gim)
   console.log(sub)
 
@@ -54,6 +51,9 @@ const newData = data.map(function (record) {
       } else if (fil[index].startsWith('id')) {
         str2.push(`https://bz.apache.org/bugzilla/show_bug.cgi?id=${fil[index].substring(3, fil[index].length)}`)
         str.push(fil[index].substring(3, fil[index].length))
+      } else if (fil[index].toLowerCase().startsWith('bug')) {
+        str2.push(`https://bz.apache.org/bugzilla/show_bug.cgi?id=${fil[index].substring(4, fil[index].length)}`)
+        str.push(fil[index].substring(4, fil[index].length))
       }
     }
     var fil1 = str.filter(function (re, index) {
@@ -80,4 +80,4 @@ const newData = data.map(function (record) {
 const newWB = xlsx.utils.book_new(newData)
 const newWS = xlsx.utils.json_to_sheet(newData)
 xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
-xlsx.writeFile(newWB, 'newbz.xlsx')
+xlsx.writeFile(newWB, 'newtocatbugs.xlsx')
