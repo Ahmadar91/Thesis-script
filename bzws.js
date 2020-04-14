@@ -40,8 +40,10 @@ async function processRecord (record) {
     }
   }
   console.log(newArr)
-
-  record.bugType = newArr.toString()
+  var fil1 = newArr.filter(function (re, index) {
+    return newArr.indexOf(re) === index
+  })
+  record.bugType = fil1.toString()
   return record
 }
 

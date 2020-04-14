@@ -1,7 +1,7 @@
 const xlsx = require('xlsx')
 const cheerio = require('cheerio')
 const fetch = require('node-fetch')
-const wb = xlsx.readFile('./newTest.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./newjenkinsbugs.xlsx', { cellDates: true })
 const ws = wb.Sheets.bugs
 const data = xlsx.utils.sheet_to_json(ws)
 const newData = []
@@ -10,12 +10,12 @@ async function process (index) {
   console.log(`processing record: ${index} out off ${data.length}`)
   newData.push(await processRecord(data[index]))
   // a < data.length - 1
-  if (index < 10) {
+  if (index < data.length - 1) {
     if (index % 3 === 0) {
-      console.log('waiting for 5000 ms')
+      console.log('waiting for 50 ms')
       setTimeout(async () => {
         await process(++index)
-      }, 5000)
+      }, 50)
     } else {
       await process(++index)
     }
@@ -37,16 +37,35 @@ async function processRecord (record) {
       const str = await startScraping(array[index])
       if (str) {
         var strArr = str.split(',').map(String)
-        console.log(strArr)
-        newArr.push(strArr[1])
-        newArr1.push(strArr[3])
-        newArr2.push(strArr[9])
+        // console.log(strArr)
+        if ((strArr[1].toLocaleLowerCase().startsWith('new'))) {
+          newArr.push(strArr[1] + ' ' + strArr[2])
+          if (strArr[4].toLowerCase().startsWith('in')) {
+            newArr1.push(strArr[4] + ' ' + strArr[5])
+          } else { newArr1.push(strArr[4]) }
+          newArr2.push(strArr[10])
+        } else {
+          newArr.push(strArr[1])
+          if (strArr[3].toLowerCase().startsWith('in')) {
+            newArr1.push(strArr[3] + ' ' + strArr[4])
+          } else { newArr1.push(strArr[3]) }
+          newArr2.push(strArr[9])
+        }
       }
     }
   }
-  record.bugType = newArr.toString()
-  record.bugStatus = newArr1.toString()
-  record.Resolution = newArr2.toString()
+  var fil1 = newArr.filter(function (re, index) {
+    return newArr.indexOf(re) === index
+  })
+  var fil2 = newArr1.filter(function (re, index) {
+    return newArr1.indexOf(re) === index
+  })
+  var fil3 = newArr2.filter(function (re, index) {
+    return newArr2.indexOf(re) === index
+  })
+  record.bugType = fil1.toString()
+  record.bugStatus = fil2.toString()
+  record.Resolution = fil3.toString()
   return record
 }
 
@@ -81,11 +100,13 @@ async function getDataFromAPI (url) {
 }
 
 async function write () {
-  console.log(newData)
+  // console.log(newData)
   const newWB = xlsx.utils.book_new(newData)
   const newWS = xlsx.utils.json_to_sheet(newData)
+
+  // was bug now named original
   xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
-  xlsx.writeFile(newWB, 'newTest2.xlsx')
+  xlsx.writeFile(newWB, 'newjenkinsbugs2.xlsx')
 }
 
 async function main () {

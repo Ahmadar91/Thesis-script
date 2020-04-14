@@ -18,10 +18,10 @@
 const xlsx = require('xlsx')
 
 // const wb = xlsx.readFile('./test.xlsx', { cellDates: true })
-const wb = xlsx.readFile('./files/test.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./files/Jenkins.xlsx', { cellDates: true })
 // console.log(wb.SheetNames)
-// const ws = wb.Sheets.bugs
 const ws = wb.Sheets.bugs
+// const ws = wb.Sheets.Original
 // console.log(ws)
 const data = xlsx.utils.sheet_to_json(ws)
 // console.log(data)
@@ -79,4 +79,4 @@ const newData = data.map(function (record) {
 const newWB = xlsx.utils.book_new(newData)
 const newWS = xlsx.utils.json_to_sheet(newData)
 xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
-xlsx.writeFile(newWB, 'newTest.xlsx')
+xlsx.writeFile(newWB, 'newjenkinsbugs.xlsx')
