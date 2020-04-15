@@ -18,7 +18,7 @@
 const xlsx = require('xlsx')
 const wb = xlsx.readFile('./files/tomcat.xlsx', { cellDates: true })
 
-//const ws = wb.Sheets.original
+// const ws = wb.Sheets.original
 const ws = wb.Sheets.bugs
 const data = xlsx.utils.sheet_to_json(ws)
 const newData = data.map(function (record) {
