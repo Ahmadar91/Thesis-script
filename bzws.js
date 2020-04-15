@@ -1,9 +1,9 @@
 const xlsx = require('xlsx')
 const cheerio = require('cheerio')
 const fetch = require('node-fetch')
-const wb = xlsx.readFile('./newtocatbugs.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./newtomcat1.xlsx', { cellDates: true })
 // const wb = xlsx.readFile('./newjmeter.xlsx', { cellDates: true })
-const ws = wb.Sheets.bugs
+const ws = wb.Sheets.original
 const data = xlsx.utils.sheet_to_json(ws)
 const newData = []
 
@@ -79,7 +79,7 @@ async function write () {
   //  console.log(newData)
   const newWB = xlsx.utils.book_new(newData)
   const newWS = xlsx.utils.json_to_sheet(newData)
-  xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
+  xlsx.utils.book_append_sheet(newWB, newWS, 'original')
   xlsx.writeFile(newWB, 'newtomcat2.xlsx')
   // xlsx.writeFile(newWB, 'newjmeter2.xlsx')
 }
