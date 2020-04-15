@@ -18,8 +18,8 @@
 const xlsx = require('xlsx')
 const wb = xlsx.readFile('./files/tomcat.xlsx', { cellDates: true })
 
-const ws = wb.Sheets.original
-// const ws = wb.Sheets.Original
+//const ws = wb.Sheets.original
+const ws = wb.Sheets.bugs
 const data = xlsx.utils.sheet_to_json(ws)
 const newData = data.map(function (record) {
   // SELECT * FROM files WHERE message REGEXP '/[[:<:]]BZ [0-9]{1,6}[[:>:]]|#[0-9]{1,6}|id=[0-9]{1,6}|[[:<:]]fix[[:>:]]|[[:<:]]fixed[[:>:]]/gim*' AND NAME LIKE "%.java%";
@@ -82,5 +82,5 @@ const newData = data.map(function (record) {
 // console.log(newData)
 const newWB = xlsx.utils.book_new(newData)
 const newWS = xlsx.utils.json_to_sheet(newData)
-xlsx.utils.book_append_sheet(newWB, newWS, 'original')
+xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
 xlsx.writeFile(newWB, 'newtomcat1.xlsx')
