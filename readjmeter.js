@@ -18,10 +18,10 @@
 const xlsx = require('xlsx')
 
 // const wb = xlsx.readFile('./test.xlsx', { cellDates: true })
-const wb = xlsx.readFile('./jmeter.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./files/jmeter.xlsx', { cellDates: true })
 // console.log(wb.SheetNames)
+// const ws = wb.Sheets.bugs
 const ws = wb.Sheets.bugs
-// const ws = wb.Sheets.Original
 // console.log(ws)
 const data = xlsx.utils.sheet_to_json(ws)
 // console.log(data)
