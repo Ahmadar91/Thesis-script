@@ -1,8 +1,8 @@
 const xlsx = require('xlsx')
 const cheerio = require('cheerio')
 const fetch = require('node-fetch')
-const wb = xlsx.readFile('./newjenkinsbugs.xlsx', { cellDates: true })
-const ws = wb.Sheets.bugs
+const wb = xlsx.readFile('./files/newcamel.xlsx', { cellDates: true })
+const ws = wb.Sheets.original
 const data = xlsx.utils.sheet_to_json(ws)
 const newData = []
 
@@ -12,10 +12,10 @@ async function process (index) {
   // a < data.length - 1
   if (index < data.length - 1) {
     if (index % 3 === 0) {
-      console.log('waiting for 50 ms')
+      console.log('waiting for 1500 ms')
       setTimeout(async () => {
         await process(++index)
-      }, 50)
+      }, 1500)
     } else {
       await process(++index)
     }
@@ -35,6 +35,8 @@ async function processRecord (record) {
     var array = record.IssueLink.split(',').map(String)
     for (let index = 0; index < array.length; index++) {
       const str = await startScraping(array[index])
+      // console.log(str)
+      console.log('\x1b[42m%s\x1b[0m', `${str}`)
       if (str) {
         var strArr = str.split(',').map(String)
         // console.log(strArr)
@@ -103,8 +105,8 @@ async function write () {
   const newWS = xlsx.utils.json_to_sheet(newData)
 
   // was bug now named original
-  xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
-  xlsx.writeFile(newWB, 'newjenkinsbugs2.xlsx')
+  xlsx.utils.book_append_sheet(newWB, newWS, 'original')
+  xlsx.writeFile(newWB, 'newcamel2.xlsx')
 }
 
 async function main () {
