@@ -1,8 +1,8 @@
 module.exports = {
-  repository: 'https://api.github.com/repos/apache/tomcat/commits',
+  repository: 'https://api.github.com/repos/apache/beam/commits',
   github: {
-    clientId: 'ahmadd91',
-    clientSecret: 'db2aa9a5525ed477bf1c330a23070cbb961b958c'
+    clientId: 'caesarhawi',
+    clientSecret: '3dbf56b44c70e4641a9145943c8792f7de0315c4'
   },
 
   database: {
@@ -10,7 +10,7 @@ module.exports = {
     port: 3306,
     user: 'admin1',
     password: 'admin1',
-    database: 'tomcat'
+    database: 'beam'
   }
 }
 //  clientId: 'caesarhawi',

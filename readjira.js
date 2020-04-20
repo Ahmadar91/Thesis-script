@@ -26,7 +26,8 @@ const ws = wb.Sheets.bugs
 const data = xlsx.utils.sheet_to_json(ws)
 // console.log(data)
 const newData = data.map(function (record) {
-  const arr = record.message.match(/\bJENKINS-[0-9]{1,6}\b|#[0-9]{1,6}|HUDSON-[0-9]{1,6}/gim)
+  // const arr = record.message.match(/\bJENKINS-[0-9]{1,6}\b|#[0-9]{1,6}|HUDSON-[0-9]{1,6}/gim)
+  const arr = record.message.match(/\bCAMEL-[0-9]{1,6}\b|#[0-9]{1,6}/gim)
   const sub = record.message.match(/\bfix\b|\bfixed\b/gim)
   let fixCount = 0
   if (sub != null) {
@@ -44,12 +45,15 @@ const newData = data.map(function (record) {
     for (let index = 0; index < fil.length; index++) {
       if (fil[index].startsWith('JEN')) {
         // console.log(arr[index].substring(8, arr[index].length))
-        str2.push(`https://issues.jenkins-ci.org/browse/JENKINS-${fil[index].substring(8, fil[index].length)}`)
+        // https://issues.apache.org/jira/browse/CAMEL-14927
+        // str2.push(`https://issues.jenkins-ci.org/browse/JENKINS-${fil[index].substring(8, fil[index].length)}`)
+        str2.push(`hhttps://issues.apache.org/jira/browse/CAMEL-${fil[index].substring(8, fil[index].length)}`)
         //  console.log(str2)
         str.push(fil[index].substring(8, fil[index].length) + '')
         console.log(fil[index].substring(8, fil[index].length))
       } else if (fil[index].startsWith('#')) {
-        str3.push(`https://github.com/jenkinsci/jenkins/pull/${fil[index].substring(1, fil[index].length)}`)
+        // str3.push(`https://github.com/jenkinsci/jenkins/pull/${fil[index].substring(1, fil[index].length)}`)
+        str3.push(`https://github.com/apache/camel/pull/${fil[index].substring(1, fil[index].length)}`)
         str.push(fil[index].substring(1, fil[index].length))
       } else {
         str.push(fil[index].substring(8, fil[index].length))

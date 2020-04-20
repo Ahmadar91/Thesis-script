@@ -88,8 +88,6 @@ async function getDataFromAPI (url) {
         'Content-Type': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0',
         Accept: '*/*',
-        Cookie: 'atlassian.xsrf.token=B5BF-G2S8-8N2K-SZ3R_d782f0b7febfcdd0cc52ccb30a5c05a19fc09cc9_lout; JSESSIONID=110191BF9E30158D6709AEDF9B73BFBD',
-        Host: 'issues.jenkins-ci.org',
         'Accept-Encoding': 'gzip, deflate, br'
       }
     })
