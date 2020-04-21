@@ -1,7 +1,7 @@
 const xlsx = require('xlsx')
 const cheerio = require('cheerio')
 const fetch = require('node-fetch')
-const wb = xlsx.readFile('./files/newbeam.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./files/newcamel.xlsx', { cellDates: true })
 const ws = wb.Sheets.original
 const data = xlsx.utils.sheet_to_json(ws)
 const newData = []
@@ -39,22 +39,30 @@ async function processRecord (record) {
       console.log('\x1b[42m%s\x1b[0m', `${str}`)
       if (str) {
         var strArr = str.split(',').map(String)
-        // console.log(strArr)
-
+        console.log(strArr)
         // console.log('\x1b[42m%s\x1b[0m', `${strArr}`)
-        // console.log(strArr)
         if ((strArr[1].toLocaleLowerCase().startsWith('new'))) {
           newArr.push(strArr[1] + ' ' + strArr[2])
-          if (strArr[4].toLowerCase().startsWith('in')) {
+          if (strArr[4].toLowerCase().startsWith('in') || strArr[3].toLowerCase().startsWith('tri')) {
             newArr1.push(strArr[4] + ' ' + strArr[5])
-          } else { newArr1.push(strArr[4]) }
-          newArr2.push(strArr[8])
+            if (strArr[4].toLocaleLowerCase().startsWith('ava')) {
+              newArr2.push(strArr[11])
+            } else { newArr2.push(strArr[9]) }
+          } else {
+            newArr1.push(strArr[4])
+            newArr2.push(strArr[8])
+          }
         } else {
           newArr.push(strArr[1])
-          if (strArr[3].toLowerCase().startsWith('in')) {
+          if (strArr[3].toLowerCase().startsWith('in') || strArr[3].toLowerCase().startsWith('tri')) {
             newArr1.push(strArr[3] + ' ' + strArr[4])
-          } else { newArr1.push(strArr[3]) }
-          newArr2.push(strArr[8])
+            if (strArr[4].toLocaleLowerCase().startsWith('ava')) {
+              newArr2.push(strArr[9])
+            } else { newArr2.push(strArr[8]) }
+          } else {
+            newArr1.push(strArr[3])
+            newArr2.push(strArr[7])
+          }
         }
       }
     }
@@ -109,7 +117,7 @@ async function write () {
 
   // was bug now named original
   xlsx.utils.book_append_sheet(newWB, newWS, 'original')
-  xlsx.writeFile(newWB, 'newbeam2.xlsx')
+  xlsx.writeFile(newWB, 'newcamel2.xlsx')
 }
 
 async function main () {

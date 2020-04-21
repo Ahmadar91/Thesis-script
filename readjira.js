@@ -49,7 +49,7 @@ const newData = data.map(function (record) {
         // str2.push(`https://issues.jenkins-ci.org/browse/JENKINS-${fil[index].substring(8, fil[index].length)}`)
         str2.push(`https://issues.apache.org/jira/browse/IGNITE-${fil[index].substring(7, fil[index].length)}`)
         //  console.log(str2)
-        str.push(fil[index].substring(6, fil[index].length) + '')
+        str.push(fil[index].substring(7, fil[index].length) + '')
         // console.log(fil[index].substring(8, fil[index].length))
       } else if (fil[index].startsWith('#')) {
         // str3.push(`https://github.com/jenkinsci/jenkins/pull/${fil[index].substring(1, fil[index].length)}`)
