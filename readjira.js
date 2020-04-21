@@ -18,7 +18,7 @@
 const xlsx = require('xlsx')
 
 // const wb = xlsx.readFile('./test.xlsx', { cellDates: true })
-const wb = xlsx.readFile('./files/camel.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./files/ignite.xlsx', { cellDates: true })
 // console.log(wb.SheetNames)
 const ws = wb.Sheets.original
 // const ws = wb.Sheets.Original
@@ -27,7 +27,7 @@ const data = xlsx.utils.sheet_to_json(ws)
 // console.log(data)
 const newData = data.map(function (record) {
   // const arr = record.message.match(/\bJENKINS-[0-9]{1,6}\b|#[0-9]{1,6}|HUDSON-[0-9]{1,6}/gim)
-  const arr = record.message.match(/\bCAMEL-[0-9]{1,6}\b|#[0-9]{1,6}/gim)
+  const arr = record.message.match(/\bIGNITE-[0-9]{1,6}\b|#[0-9]{1,6}/gim)
   const sub = record.message.match(/\bfix\b|\bfixed\b/gim)
   let fixCount = 0
   if (sub != null) {
@@ -43,17 +43,17 @@ const newData = data.map(function (record) {
       return arr.indexOf(re) === index
     })
     for (let index = 0; index < fil.length; index++) {
-      if (fil[index].startsWith('CAM')) {
-        console.log(arr[index].substring(6, arr[index].length))
+      if (fil[index].startsWith('IGN')) {
+        console.log(arr[index].substring(7, arr[index].length))
         // https://issues.apache.org/jira/browse/CAMEL-14927
         // str2.push(`https://issues.jenkins-ci.org/browse/JENKINS-${fil[index].substring(8, fil[index].length)}`)
-        str2.push(`https://issues.apache.org/jira/browse/CAMEL-${fil[index].substring(6, fil[index].length)}`)
+        str2.push(`https://issues.apache.org/jira/browse/IGNITE-${fil[index].substring(7, fil[index].length)}`)
         //  console.log(str2)
         str.push(fil[index].substring(6, fil[index].length) + '')
         // console.log(fil[index].substring(8, fil[index].length))
       } else if (fil[index].startsWith('#')) {
         // str3.push(`https://github.com/jenkinsci/jenkins/pull/${fil[index].substring(1, fil[index].length)}`)
-        str3.push(`https://github.com/apache/camel/pull/${fil[index].substring(1, fil[index].length)}`)
+        str3.push(`https://github.com/apache/ignite/pull/${fil[index].substring(1, fil[index].length)}`)
         str.push(fil[index].substring(1, fil[index].length))
       }
       // else {
@@ -84,4 +84,4 @@ const newData = data.map(function (record) {
 const newWB = xlsx.utils.book_new(newData)
 const newWS = xlsx.utils.json_to_sheet(newData)
 xlsx.utils.book_append_sheet(newWB, newWS, 'original')
-xlsx.writeFile(newWB, 'newcamel.xlsx')
+xlsx.writeFile(newWB, 'newingite.xlsx')

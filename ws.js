@@ -1,7 +1,7 @@
 const xlsx = require('xlsx')
 const cheerio = require('cheerio')
 const fetch = require('node-fetch')
-const wb = xlsx.readFile('./files/newcamel.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./files/newbeam.xlsx', { cellDates: true })
 const ws = wb.Sheets.original
 const data = xlsx.utils.sheet_to_json(ws)
 const newData = []
@@ -15,7 +15,7 @@ async function process (index) {
       console.log('waiting for 1500 ms')
       setTimeout(async () => {
         await process(++index)
-      }, 1500)
+      }, 50)
     } else {
       await process(++index)
     }
@@ -40,18 +40,21 @@ async function processRecord (record) {
       if (str) {
         var strArr = str.split(',').map(String)
         // console.log(strArr)
+
+        // console.log('\x1b[42m%s\x1b[0m', `${strArr}`)
+        // console.log(strArr)
         if ((strArr[1].toLocaleLowerCase().startsWith('new'))) {
           newArr.push(strArr[1] + ' ' + strArr[2])
           if (strArr[4].toLowerCase().startsWith('in')) {
             newArr1.push(strArr[4] + ' ' + strArr[5])
           } else { newArr1.push(strArr[4]) }
-          newArr2.push(strArr[10])
+          newArr2.push(strArr[8])
         } else {
           newArr.push(strArr[1])
           if (strArr[3].toLowerCase().startsWith('in')) {
             newArr1.push(strArr[3] + ' ' + strArr[4])
           } else { newArr1.push(strArr[3]) }
-          newArr2.push(strArr[9])
+          newArr2.push(strArr[8])
         }
       }
     }
@@ -106,7 +109,7 @@ async function write () {
 
   // was bug now named original
   xlsx.utils.book_append_sheet(newWB, newWS, 'original')
-  xlsx.writeFile(newWB, 'newcamel2.xlsx')
+  xlsx.writeFile(newWB, 'newbeam2.xlsx')
 }
 
 async function main () {
