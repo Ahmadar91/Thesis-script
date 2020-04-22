@@ -21,7 +21,7 @@ const xlsx = require('xlsx')
 const wb = xlsx.readFile('./files/AntNew.xlsx', { cellDates: true })
 // console.log(wb.SheetNames)
 // const ws = wb.Sheets.bugs
-const ws = wb.Sheets.original
+const ws = wb.Sheets.all
 // console.log(ws)
 const data = xlsx.utils.sheet_to_json(ws)
 // console.log(data)
