@@ -1,9 +1,10 @@
 const xlsx = require('xlsx')
 
-const wb = xlsx.readFile('./files/jmeter.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./newFiles/ignite.xlsx', { cellDates: true })
 
 // const ws = wb.Sheets.ten
-const ws = wb.Sheets['Release v5.2.1 (Nov 24, 2019)']
+const name = 'Release 2.5.0 (2018-05-28)'
+const ws = wb.Sheets[name]
 const data = xlsx.utils.sheet_to_json(ws)
 const arr = []
 for (let index = 0; index < data.length; index++) {
@@ -21,7 +22,8 @@ for (let index = 0; index < data.length; index++) {
       count++
       // for (let j = 0; j < array.length; j++) {
       // data[i].bugType.includes('bug') === true
-      if (data[i].bugType.includes('resolved') === true || data[i].bugType.includes('closed') === true || data[i].bugType.includes('reopened') === true || data[i].bugType.includes('new') === true || data[i].bugType.includes('closed') === true || data[i].bugType.includes('verified') === true) {
+      // (data[i].bugType.includes('resolved') === true || data[i].bugType.includes('closed') === true || data[i].bugType.includes('reopened') === true || data[i].bugType.includes('new') === true || data[i].bugType.includes('closed') === true || data[i].bugType.includes('verified') === true
+      if (data[i].bugType.includes('bug') === true) {
       //  console.log('bug')
         bugCount++
       }
@@ -35,8 +37,7 @@ for (let index = 0; index < data.length; index++) {
   // console.log(data[index].name + ': ' + count)
 }
 // console.log(arr)
-
 const newWB = xlsx.utils.book_new(arr)
 const newWS = xlsx.utils.json_to_sheet(arr)
-xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
-xlsx.writeFile(newWB, './results/jmeterFinal.xlsx')
+xlsx.utils.book_append_sheet(newWB, newWS, name)
+xlsx.writeFile(newWB, './newFiles/newIgnite.xlsx')
