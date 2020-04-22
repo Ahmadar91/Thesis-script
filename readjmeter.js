@@ -18,17 +18,17 @@
 const xlsx = require('xlsx')
 
 // const wb = xlsx.readFile('./test.xlsx', { cellDates: true })
-const wb = xlsx.readFile('./files/jmeter.xlsx', { cellDates: true })
+const wb = xlsx.readFile('./files/AntNew.xlsx', { cellDates: true })
 // console.log(wb.SheetNames)
 // const ws = wb.Sheets.bugs
-const ws = wb.Sheets.bugs
+const ws = wb.Sheets.original
 // console.log(ws)
 const data = xlsx.utils.sheet_to_json(ws)
 // console.log(data)
 const newData = data.map(function (record) {
   // SELECT * FROM files WHERE message REGEXP '/[[:<:]]BZ [0-9]{1,6}[[:>:]]|#[0-9]{1,6}|id=[0-9]{1,6}|bug [0-9]{1,6}|pr [0-9]{1,6}|id: [0-9]{1,6}|bugzilla [0-9]{1,6}|Enhancement [0-9]{1,6}|[[:<:]]fix[[:>:]]|[[:<:]]fixed[[:>:]]/gim*' AND NAME LIKE "%.java%";
 
-  const arr = record.message.match(/\bbz [0-9]{1,6}\b|#[0-9]{1,6}|bug [0-9]{1,6}|id: [0-9]{1,6}|pr [0-9]{1,6}|id=[0-9]{1,6}|bugzilla [0-9]{1,6}|Enhancement [0-9]{1,6}/gim)
+  const arr = record.message.match(/\bbz [0-9]{1,6}\b|#[0-9]{1,6}|bug [0-9]{1,6}|id: [0-9]{1,6}|pr [0-9]{1,6}|id=[0-9]{1,6}|bugzilla [0-9]{1,6}|Enhancement [0-9]{1,6}|bz-[0-9]{1,6}}|bugzilla-[0-9]{1,6}/gim)
   const sub = record.message.match(/\bfix\b|\bfixed\b/gim)
   // console.log(sub)
 
@@ -53,7 +53,7 @@ const newData = data.map(function (record) {
         str2.push(`https://bz.apache.org/bugzilla/show_bug.cgi?id=${fil[index].substring(3, fil[index].length)}`)
         str.push(fil[index].substring(3, fil[index].length) + '')
       } else if (fil[index].startsWith('#')) {
-        str3.push(`https://github.com/jenkinsci/jenkins/pull/${fil[index].substring(1, fil[index].length)}`)
+        str3.push(`https://github.com/apache/ant/pull/${fil[index].substring(1, fil[index].length)}`)
         str.push(fil[index].substring(1, fil[index].length))
       } else if (fil[index].toLowerCase().startsWith('bug')) {
         // console.log('bug')
@@ -110,5 +110,5 @@ const newData = data.map(function (record) {
 // console.log(newData)
 const newWB = xlsx.utils.book_new(newData)
 const newWS = xlsx.utils.json_to_sheet(newData)
-xlsx.utils.book_append_sheet(newWB, newWS, 'bugs')
-xlsx.writeFile(newWB, 'newjmeter.xlsx')
+xlsx.utils.book_append_sheet(newWB, newWS, 'original')
+xlsx.writeFile(newWB, 'antnewnew.xlsx')
