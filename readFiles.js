@@ -2,16 +2,19 @@ const unzipper = require('unzipper')
 const fs = require('fs')
 const db = require('./db')
 db.connect()
-fs.createReadStream('jfreechart-1.5.0.zip')
+fs.createReadStream('ignite-2.8.0.zip')
   .pipe(unzipper.Parse())
-  .on('entry', function (entry) {
+  .on('entry', async function (entry) {
     const fileName = entry.path
     if (fileName.includes('.java')) {
       if (!fileName.includes('/test/')) {
         console.log(fileName)
+        const content = await entry.buffer()
+        console.log(content.toString().split(/\r\n|\r|\n/).length - 1)
         db.query('INSERT INTO releases SET ?', {
-          release: '1.5.0',
-          fileName: fileName
+          release: '2.8.0',
+          fileName: fileName,
+          loc: content.toString().split(/\r\n|\r|\n/).length - 1
         }).catch((err) => {
           console.log('Error: [' + fileName + ']: ' + err.message)
         })

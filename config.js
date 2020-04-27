@@ -10,7 +10,7 @@ module.exports = {
     port: 3306,
     user: 'admin1',
     password: 'admin1',
-    database: 'beam'
+    database: 'ignite'
   }
 }
 //  clientId: 'caesarhawi',
