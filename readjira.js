@@ -25,7 +25,6 @@ const newData = data.map(function (record) {
         str2.push(`https://issues.apache.org/jira/browse/IGNITE-${fil[index].substring(7, fil[index].length)}`)
         //  console.log(str2)
         str.push(fil[index].substring(7, fil[index].length) + '')
-        // console.log(fil[index].substring(8, fil[index].length))
       } else if (fil[index].startsWith('#')) {
         // str3.push(`https://github.com/jenkinsci/jenkins/pull/${fil[index].substring(1, fil[index].length)}`)
         str3.push(`https://github.com/apache/ignite/pull/${fil[index].substring(1, fil[index].length)}`)

@@ -8,13 +8,12 @@ const newData = []
 async function process (index) {
   console.log(`processing record: ${index} out off ${data.length}`)
   newData.push(await processRecord(data[index]))
-  // a < data.length - 1
   if (index < data.length - 1) {
     if (index % 3 === 0) {
       console.log('waiting for 1500 ms')
       setTimeout(async () => {
         await process(++index)
-      }, 50)
+      }, 1500)
     } else {
       await process(++index)
     }

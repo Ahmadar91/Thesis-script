@@ -14,8 +14,8 @@ for (let index = 0; index < data.length; index++) {
       console.log(data[i].name)
       codeChurn += data[i].changes
       count++
-
-      // (data[i].bugType.includes('resolved') === true || data[i].bugType.includes('closed') === true || data[i].bugType.includes('reopened') === true || data[i].bugType.includes('new') === true || data[i].bugType.includes('closed') === true || data[i].bugType.includes('verified') === true
+      // for jemter uncommet the code below
+      // if (data[i].bugType.includes('resolved') === true || data[i].bugType.includes('closed') === true || data[i].bugType.includes('reopened') === true || data[i].bugType.includes('new') === true || data[i].bugType.includes('closed') === true || data[i].bugType.includes('verified') === true
       if (data[i].bugType.includes('bug') === true) {
         bugCount++
       }
